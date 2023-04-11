@@ -7,8 +7,9 @@ const { authToken } = require('../middlewares');
 const userRouter = express.Router();
 
 userRouter.post('/', userController.createUser);
-userRouter.get('/', authToken, userController.findAllUser);
-userRouter.get('/:id', authToken, userController.findUserById);
-userRouter.delete('/me', authToken, userController.deleteUser);
+userRouter.use(authToken);
+userRouter.get('/', userController.findAllUser);
+userRouter.get('/:id', userController.findUserById);
+userRouter.delete('/me', userController.deleteUser);
 
 module.exports = userRouter;
