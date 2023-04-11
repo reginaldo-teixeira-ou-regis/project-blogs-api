@@ -1,4 +1,4 @@
-const { validateToken } = require('../services/validation/auth');
+const { validateToken } = require('./validate');
 
 const authToken = (req, res, next) => {
   try {

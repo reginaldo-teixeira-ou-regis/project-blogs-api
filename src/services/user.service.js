@@ -1,6 +1,6 @@
 const { User } = require('../models');
-const { generateToken } = require('./validation/auth');
-const { validateUser } = require('./validation/schema');
+const { generateToken } = require('../middlewares');
+const { schemaUser } = require('../middlewares/schema');
 
 const findUser = async (email, password) => {
   if (!email || !password) return { message: 'Some required fields are missing' };
@@ -30,7 +30,7 @@ const findUserById = async (id) => {
 };
 
 const createUser = async (newUser) => {
-  const { error } = validateUser.validate(newUser);
+  const { error } = schemaUser.validate(newUser);
   if (error) return { message: error.message, status: 400 };
 
   const userExists = await User.findOne({ where: { email: newUser.email } });

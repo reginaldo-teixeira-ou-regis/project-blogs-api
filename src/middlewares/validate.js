@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+const { schemaNewPost } = require('./schema');
+
 const secretkey = process.env.JWT_SECRET;
 
 const configJWT = {
@@ -18,7 +20,17 @@ const validateToken = (token) => {
   return tokenValid;
 };
 
+const validateNewPost = (req, res, next) => {
+  const validation = schemaNewPost.validate(req.body);
+  if (validation.error) {
+    res.status(400).json({ message: 'Some required fields are missing' });
+    throw new Error(validation.error);
+  }
+  next();
+};
+
 module.exports = {
   generateToken,
   validateToken,
+  validateNewPost,
 };
