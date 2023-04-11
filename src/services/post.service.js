@@ -64,8 +64,26 @@ const findPostById = async (userId, id) => {
   return post;
 };
 
+const updatePost = async (userId, id, title, content) => {
+  await BlogPost.update(
+    { title, content, updated: new Date() },
+    { where: { userId, id } },
+  );
+  
+  const post = await BlogPost.findOne({
+    where: { userId, id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return post;
+};
+
 module.exports = {
   createNewPost,
   findPosts,
   findPostById,
+  updatePost,
 };

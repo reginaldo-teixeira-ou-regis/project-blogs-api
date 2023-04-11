@@ -4,6 +4,7 @@ const {
   generateToken,
   validateToken,
   validateNewPost,
+  validateUpdatePost,
 } = require('./validate');
 
 module.exports = {
@@ -11,4 +12,5 @@ module.exports = {
   generateToken,
   validateToken,
   validateNewPost,
+  validateUpdatePost,
 };
