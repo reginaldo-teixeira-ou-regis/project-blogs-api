@@ -1,6 +1,6 @@
 const { userService } = require('../services');
 
-const INTERNAL_ERROR = 'internal INTERNAL_ERROR';
+const INTERNAL_ERROR = 'Internal error';
 
 const findUser = async (req, res) => {
   try {
