@@ -64,12 +64,17 @@ const findPostById = async (userId, id) => {
   return post;
 };
 
+const findPostByIdAllUsers = async (id) => {
+  const post = await BlogPost.findOne({ where: { id } });
+  return post;
+};
+
 const updatePost = async (userId, id, title, content) => {
   await BlogPost.update(
     { title, content, updated: new Date() },
     { where: { userId, id } },
   );
-  
+
   const post = await BlogPost.findOne({
     where: { userId, id },
     include: [
@@ -81,9 +86,22 @@ const updatePost = async (userId, id, title, content) => {
   return post;
 };
 
+const deletePost = async (userId, id) => {
+  try {
+    const result = await BlogPost.destroy({ where: { userId, id } });
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
 module.exports = {
   createNewPost,
   findPosts,
   findPostById,
+  findPostByIdAllUsers,
   updatePost,
+  deletePost,
 };

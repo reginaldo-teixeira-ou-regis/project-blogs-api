@@ -18,6 +18,7 @@ const createNewPost = async (req, res) => {
 const findPosts = async (req, res) => {
   try {
     const userId = req.user.id;
+
     const posts = await postService.findPosts(userId);
 
     if (!posts) return res.status(404).json({ message: 'Post not found' });
@@ -33,6 +34,7 @@ const findPostById = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
+
     const post = await postService.findPostById(id, userId);
 
     if (!post) return res.status(404).json({ message: 'Post does not exist' });
@@ -44,14 +46,48 @@ const findPostById = async (req, res) => {
   }
 };
 
+const findPostByIdAllUsers = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await postService.findPostByIdAllUsers(id);
+
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
 const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
     const { title, content } = req.body;
+
     const post = await postService.updatePost(userId, id, title, content);
+
     if (!post) return res.status(401).json({ message: 'Unauthorized user' });
+
     return res.status(200).json(post);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const postAllUsers = await postService.findPostByIdAllUsers(id);
+    if (!postAllUsers) return res.status(404).json({ message: 'Post does not exist' });
+
+    const post = await postService.deletePost(userId, id);
+    if (!post) return res.status(401).json({ message: 'Unauthorized user' });
+
+    return res.status(204).end();
   } catch (err) {
     console.error(err);
     return res.status(400).json({ message: err.message });
@@ -62,5 +98,7 @@ module.exports = {
   createNewPost,
   findPosts,
   findPostById,
+  findPostByIdAllUsers,
   updatePost,
+  deletePost,
 };
