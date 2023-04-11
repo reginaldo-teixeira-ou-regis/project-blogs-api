@@ -94,6 +94,19 @@ const deletePost = async (req, res) => {
   }
 };
 
+const findPostByTerm = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const posts = await postService.findPostByTerm(q);
+    if (!posts) return res.status(404).json({ message: 'Post does not exist' });
+    
+    return res.status(200).json(posts);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createNewPost,
   findPosts,
@@ -101,4 +114,5 @@ module.exports = {
   findPostByIdAllUsers,
   updatePost,
   deletePost,
+  findPostByTerm,
 };
