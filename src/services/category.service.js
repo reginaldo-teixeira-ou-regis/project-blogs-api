@@ -4,6 +4,7 @@ const { schemaCategory } = require('../middlewares/schema');
 const createCategory = async (category) => {
   const { error } = schemaCategory.validate(category);
   if (error) return { message: error.message };
+  
   const newCategory = await Category.create(category);
   return newCategory;
 };
