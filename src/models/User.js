@@ -23,6 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'posts'
     });
   };
-
+  
   return User;
 };

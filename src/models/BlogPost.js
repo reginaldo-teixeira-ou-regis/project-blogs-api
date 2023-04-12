@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     updated: DataTypes.DATE,
   },  
   {
-      timestamps: false,
-      tableName: 'blog_posts',
-      underscored: true,
+    timestamps: false,
+    tableName: 'blog_posts',
+    underscored: true,
   });
 
   BlogPost.associate = (models) => {
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user'
     });
-    };
+  };
 
   return BlogPost;
 };
